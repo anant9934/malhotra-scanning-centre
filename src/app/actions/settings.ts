@@ -7,6 +7,7 @@ import path from 'path';
 const SETTINGS_FILE = path.join(process.cwd(), 'src/data/admin-settings.json');
 
 async function readSettings() {
+  if (memoryFallback) return memoryFallback;
   try {
     const raw = await fs.readFile(SETTINGS_FILE, 'utf-8');
     return JSON.parse(raw);
@@ -15,8 +16,20 @@ async function readSettings() {
   }
 }
 
+// In-memory fallback for Vercel's ephemeral serverless environments
+let memoryFallback: any = null;
+
 async function writeSettings(data: object) {
-  await fs.writeFile(SETTINGS_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  try {
+    await fs.writeFile(SETTINGS_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (error: any) {
+    if (error.code === 'EROFS') {
+      console.warn("Vercel EROFS detected. Falling back to in-memory state. Note: This will reset on cold boot.");
+      memoryFallback = data;
+    } else {
+      console.error("Failed to write settings", error);
+    }
+  }
 }
 
 /**

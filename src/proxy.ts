@@ -5,7 +5,7 @@ import { jwtVerify } from 'jose'
 const secretKey = process.env.JWT_SECRET || 'fallback-secret-key-do-not-use-in-production';
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // 1. Supabase Session Refresh (for any Supabase queries)
   const supabaseResponse = await updateSession(request)
 
