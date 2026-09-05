@@ -1,0 +1,327 @@
+.header {
+  margin-bottom: 4rem;
+}
+
+/* Mobile Segmented Control */
+.segmentedControl {
+  display: flex;
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+  padding: 0.25rem;
+  margin-bottom: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.segmentBtn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.segmentBtn.active {
+  background-color: var(--color-green-primary);
+  color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  
+  .segmentedControl {
+    display: none;
+  }
+  
+  .card {
+    display: flex !important;
+  }
+}
+
+.hideOnMobile {
+  display: none;
+}
+
+.showOnMobile {
+  display: flex;
+}
+
+.card {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+}
+
+.cardHeader {
+  padding: 1.5rem 2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cardNumber {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.cardLabel {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-green-primary);
+  font-weight: 600;
+}
+
+.cardBody {
+  padding: 1.5rem 2rem 2.5rem;
+  flex: 1;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.infoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.infoText {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 2rem;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  background-color: var(--color-white);
+}
+
+.actionBtn:hover {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-text-primary);
+}
+
+.primaryAction {
+  background-color: var(--color-green-primary);
+  color: var(--color-white);
+  border-color: var(--color-green-primary);
+}
+
+.primaryAction:hover {
+  background-color: var(--color-green-dark);
+  color: var(--color-white);
+  border-color: var(--color-green-dark);
+}
+
+.arrow {
+  margin-left: 0.5rem;
+  transition: transform var(--transition-fast);
+}
+
+.primaryAction:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* Services Section */
+.servicesSection {
+  background-color: var(--color-bg-secondary);
+  padding: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.serviceChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.serviceChip {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 40px;
+  color: var(--color-text-secondary);
+}
+
+/* Map Grid */
+.mapGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .mapGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+}
+
+.mapWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-green-primary);
+  text-decoration: none;
+}
+
+.mapLink:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* Visiting Info Grid */
+.visitingInfoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .visitingInfoGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Comparison Table */
+.comparisonTable {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--color-white);
+}
+
+.comparisonHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.comparisonRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.comparisonRow:last-child {
+  border-bottom: none;
+}
+
+.colLabel {
+  padding: 1rem 1.5rem;
+}
+
+.colHeader {
+  padding: 1rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-align: center;
+  color: var(--color-green-primary);
+}
+
+.rowLabel {
+  padding: 1rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-right: 1px solid var(--color-border);
+}
+
+.rowCheck {
+  padding: 1rem;
+  text-align: center;
+  color: var(--color-green-primary);
+  font-weight: bold;
+  border-right: 1px solid var(--color-border);
+}
+
+.rowCheck:last-child {
+  border-right: none;
+}
+
+.rowConfirm {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  border-right: 1px solid var(--color-border);
+}
+
+.rowConfirm:last-child {
+  border-right: none;
+}

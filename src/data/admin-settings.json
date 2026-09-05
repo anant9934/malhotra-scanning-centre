@@ -1,0 +1,20 @@
+{
+  "prices": {},
+  "centres": {
+    "maqsudan": {
+      "phone": "+91 6283930230",
+      "hours": "Monday – Saturday, 9:00 AM – 7:30 PM",
+      "address": "Plot No. 2, Maqsudan Chowk, HDFC Bank Basement, Near Police Station, Jalandhar, Punjab 144008"
+    },
+    "ramamandi": {
+      "phone": "+91 6283930231",
+      "hours": "Monday – Saturday, 9:00 AM – 8:00 PM",
+      "address": "Main Market, Opposite Dashmesh Vaishno Dhaba, Rama Mandi, Jalandhar, Punjab 144005"
+    }
+  },
+  "site": {
+    "phone": "99990-62109",
+    "tagline": "Advanced diagnostics. Trusted care.",
+    "openHours": "Mon – Sun, 8 AM – 8 PM"
+  }
+}

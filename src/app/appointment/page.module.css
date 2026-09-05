@@ -1,0 +1,73 @@
+.appointmentPage {
+  background-color: var(--color-bg-secondary);
+  min-height: calc(100vh - var(--header-height));
+}
+
+.formContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.formHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.form {
+  background-color: var(--color-white);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.formActions {
+  margin-top: 2rem;
+}
+
+.disclaimer {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.successMessage {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background-color: var(--color-white);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  background-color: var(--color-green-primary);
+  color: var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 2rem;
+}
+
+@media (min-width: 768px) {
+  .form {
+    padding: 4rem;
+  }
+  
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}

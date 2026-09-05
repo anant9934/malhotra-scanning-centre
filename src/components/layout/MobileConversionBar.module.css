@@ -1,0 +1,49 @@
+.conversionBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--color-white);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.actionItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-right: 1px solid var(--color-border);
+  transition: background-color var(--transition-fast);
+}
+
+.actionItem:last-child {
+  border-right: none;
+}
+
+.actionItem:active {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.actionItem.primary {
+  background-color: var(--color-green-primary);
+  color: var(--color-white);
+}
+
+.actionItem.primary:active {
+  background-color: var(--color-green-dark);
+}
+
+@media (min-width: 768px) {
+  .conversionBar {
+    display: none;
+  }
+}

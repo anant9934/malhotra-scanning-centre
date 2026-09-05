@@ -1,0 +1,675 @@
+/* Homepage Styles */
+
+.home {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 02 HERO */
+.hero {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  padding: 2rem 0 4rem;
+  overflow: hidden;
+}
+
+.heroContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.heroTitle {
+  margin-bottom: 2rem;
+}
+
+.heroSeparator {
+  width: 40px;
+  height: 2px;
+  background-color: var(--color-border);
+  margin-bottom: 2rem;
+}
+
+.heroDescription {
+  margin-bottom: 2.5rem;
+  max-width: 450px;
+}
+
+.heroActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.trustPoints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.trustPoint {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.trustIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--color-gold-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold-accent);
+}
+
+.heroImageSide {
+  position: relative;
+  width: 100%;
+  height: 600px;
+}
+
+.heroImageWrapper {
+  position: absolute;
+  top: 0;
+  right: -5%; /* Bleed edge slightly */
+  width: 105%;
+  height: 100%;
+  border-top-left-radius: 300px;
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 20px;
+  overflow: hidden;
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+.heroImageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(249, 247, 241, 0.4) 0%, rgba(249, 247, 241, 0) 50%);
+  z-index: 1;
+  padding: 4rem;
+}
+
+.heroOverlayText {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.floatingCard {
+  position: absolute;
+  bottom: 2rem;
+  left: -2rem;
+  background-color: var(--color-white);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 2;
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.floatingCardDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-gold-accent);
+  margin-top: 0.5rem;
+}
+
+.cardLine {
+  width: 30px;
+  height: 1px;
+  background-color: var(--color-border);
+  margin-top: 0.75rem;
+}
+
+.floatingCircle {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 120px;
+  height: 120px;
+  background-color: var(--color-bg-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.circularText {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: rotate 20s linear infinite;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (min-width: 768px) {
+  .heroActions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroContainer {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2rem;
+  }
+  .heroImageSide {
+    height: 700px;
+  }
+}
+
+/* 04 ESSENTIAL SERVICES */
+.servicesHeaderRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.headerLink {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-green-primary);
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .servicesHeaderRow {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .servicesHeaderRight {
+    max-width: 350px;
+  }
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.serviceCard {
+  background-color: transparent;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.serviceCard:hover {
+  background-color: var(--color-white);
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.serviceIconWrapper {
+  margin-bottom: 2rem;
+  color: var(--color-gold-accent);
+}
+
+.serviceDesc {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.exploreLink {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .servicesGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 03 TRUST BAND */
+.trustBand {
+  background-color: var(--color-green-primary);
+  color: var(--color-white);
+  padding: 6rem 0;
+}
+
+.trustBandContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+}
+
+.trustBandTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  font-weight: 400;
+  margin-top: 1rem;
+}
+
+.trustBandGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.trustBandItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.trustBandIconCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.trustBandItemTitle {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+}
+
+.trustBandItemDesc {
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.4;
+}
+
+@media (min-width: 1024px) {
+  .trustBandContainer {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+}
+
+/* 06 TWO CENTRES */
+.centresContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+}
+
+.centreNavArrows {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.arrowBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.arrowBtnDark {
+  background-color: var(--color-green-primary);
+  color: var(--color-white);
+  border-color: var(--color-green-primary);
+}
+
+.arrowDesc {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.centresRight {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.centreCard {
+  min-width: 300px;
+  background-color: var(--color-white);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.centreCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.trustNumber {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--color-gold-accent);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.centrePhoto {
+  width: 80px;
+  height: 60px;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.centreInfoList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.infoRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.infoIcon {
+  color: var(--color-gold-accent);
+  margin-top: 2px;
+}
+
+.infoText {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+@media (min-width: 1024px) {
+  .centresContainer {
+    grid-template-columns: 350px 1fr;
+  }
+}
+
+/* 07 RADIOLOGIST */
+.radiologistContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.radiologistImageWrapper {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 300px 300px 0 0;
+  overflow: hidden;
+  position: relative;
+  max-width: 400px;
+}
+
+.docImage {
+  object-fit: cover;
+}
+
+.signature {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  font-family: 'Brush Script MT', cursive; /* Generic fallback for signature */
+  font-size: 2.5rem;
+  color: rgba(255,255,255,0.9);
+  z-index: 2;
+  transform: rotate(-10deg);
+}
+
+.radiologistContent {
+  padding-top: 2rem;
+}
+
+.credentials {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.bio {
+  max-width: 400px;
+}
+
+.quoteBlock {
+  padding-top: 4rem;
+}
+
+.quoteText {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.quoteAuthor {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .radiologistContainer {
+    grid-template-columns: 400px 1fr 300px;
+    gap: 4rem;
+  }
+}
+
+/* 08 APPOINTMENT CTA */
+.ctaSection {
+  padding: 5rem 0;
+  background-color: var(--color-bg-primary);
+}
+
+.ctaBox {
+  background-color: var(--color-green-primary);
+  border-radius: 20px;
+  padding: 4rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.ctaDesc {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9375rem;
+}
+
+.ctaMiddle {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.ctaRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ctaRightText {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .ctaBox {
+    grid-template-columns: 1fr 1fr 150px;
+    align-items: center;
+  }
+}
+
+/* 09 SHOWCASE GALLERY */
+.showcaseSection {
+  background-color: var(--color-bg-primary);
+}
+
+.showcaseGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.showcaseItem {
+  position: relative;
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.showcaseItemLarge {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  grid-column: span 2;
+  aspect-ratio: 2/1;
+}
+
+.showcaseImage {
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.showcaseItem:hover .showcaseImage,
+.showcaseItemLarge:hover .showcaseImage {
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .showcaseGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .showcaseItemLarge {
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: 1/1;
+  }
+}
+
+/* TESTIMONIALS SECTION */
+.testimonialsSection {
+  background-color: var(--color-bg-primary);
+}
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+@media (min-width: 768px) {
+  .testimonialsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.testimonialCard {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+}
+.stars {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+.testimonialText {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  margin-bottom: 2rem;
+  font-style: italic;
+  flex: 1;
+}
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.authorAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-green-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+.authorName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
