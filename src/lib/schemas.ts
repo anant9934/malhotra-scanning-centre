@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
 // Appointment Form Schema
-export const getAppointmentSchema = (dict: any) => z.object({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getAppointmentSchema = (dict: Record<string, any>) => z.object({
   patientName: z.string().min(2, dict.appointment.validation.nameMin).max(100, dict.appointment.validation.nameMax).trim().regex(/^[a-zA-Z\s]+$/, dict.appointment.validation.nameRegex),
   phoneNumber: z.string().regex(/^[0-9]{10}$/, dict.appointment.validation.phoneExact),
   investigation: z.string().min(2, dict.appointment.validation.investigationRequired).max(150),

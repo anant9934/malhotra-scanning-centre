@@ -17,7 +17,7 @@ function getLocale(request: NextRequest): string {
 
   // Check cookie
   const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
-  if (cookieLocale && locales.includes(cookieLocale as any)) {
+  if (cookieLocale && locales.includes(cookieLocale as (typeof locales)[number])) {
     return cookieLocale;
   }
 
@@ -46,7 +46,7 @@ export async function proxy(request: NextRequest) {
       if (payload.role !== 'SUPER_ADMIN') {
         return NextResponse.redirect(new URL('/admin/login', request.url))
       }
-    } catch (error) {
+    } catch {
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
     return supabaseResponse

@@ -3,6 +3,8 @@
  * Centralizing these interfaces ensures high cohesion across UI components and API layers.
  */
 
+import type React from 'react';
+
 export interface Appointment {
   id: string;
   patientName: string;
@@ -26,8 +28,8 @@ export interface Service {
   id: string;
   title: string;
   description: string;
-  /** Lucide-react icon component (any type to bypass ReactNode type mismatches) */
-  icon: any; 
+  /** Lucide-react icon component */
+  icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>; 
   duration: string;
   report: string;
   priceSummary: string;
