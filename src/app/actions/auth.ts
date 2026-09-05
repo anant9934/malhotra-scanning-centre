@@ -8,7 +8,7 @@ import bcrypt from 'bcryptjs';
 // In production, the admin password MUST be securely hashed and stored in the database.
 // Since we don't have an Admin table yet, we are comparing against a hashed ENV variable.
 // E.g. $2a$12$R9h/cIPz0gi.URNNX3cam2OsX...
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || bcrypt.hashSync('admin123', 12);
+// E.g. $2a$12$R9h/cIPz0gi.URNNX3cam2OsX...
 
 /**
  * Authenticates an admin user using the provided password.
@@ -22,6 +22,9 @@ export async function login(formData: FormData) {
     const parsedData = LoginSchema.parse({
       password: formData.get('password'),
     });
+    
+    // Retrieve hash dynamically at runtime to prevent Next.js build caching
+    const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || bcrypt.hashSync('admin123', 12);
     
     // Secure constant-time hash comparison
     const isMatch = await bcrypt.compare(parsedData.password, ADMIN_PASSWORD_HASH);
