@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import styles from "@/app/page.module.css";
+import styles from "@/app/[locale]/(public)/page.module.css";
 
 export function ShowcaseGallery() {
   return (

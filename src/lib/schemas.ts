@@ -1,14 +1,14 @@
 import { z } from 'zod';
 
 // Appointment Form Schema
-export const AppointmentSchema = z.object({
-  patientName: z.string().min(2, "Name must be at least 2 characters").max(100, "Name is too long").trim().regex(/^[a-zA-Z\s]+$/, "Name can only contain letters and spaces"),
-  phoneNumber: z.string().regex(/^[0-9]{10}$/, "Phone number must be exactly 10 digits"),
-  investigation: z.string().min(2, "Investigation is required").max(150),
-  preferredCentre: z.enum(['Maqsudan', 'Rama Mandi']),
-  preferredDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
-  preferredTime: z.string().regex(/^\d{2}:\d{2}$/, "Invalid time format"),
-  message: z.string().max(1000, "Message is too long").optional().default(""),
+export const getAppointmentSchema = (dict: any) => z.object({
+  patientName: z.string().min(2, dict.appointment.validation.nameMin).max(100, dict.appointment.validation.nameMax).trim().regex(/^[a-zA-Z\s]+$/, dict.appointment.validation.nameRegex),
+  phoneNumber: z.string().regex(/^[0-9]{10}$/, dict.appointment.validation.phoneExact),
+  investigation: z.string().min(2, dict.appointment.validation.investigationRequired).max(150),
+  preferredCentre: z.enum(['Maqsudan', 'Rama Mandi', 'Any']),
+  preferredDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, dict.appointment.validation.dateInvalid),
+  preferredTime: z.string().default('Any'),
+  message: z.string().max(1000, dict.appointment.validation.messageMax).optional().default(""),
 });
 
 // Admin Login Schema

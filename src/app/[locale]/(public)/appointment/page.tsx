@@ -6,6 +6,7 @@ import { submitAppointment } from '@/app/actions/appointment';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 import styles from './page.module.css';
+import { useI18n } from '@/components/providers/I18nProvider';
 
 function AppointmentForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,6 +15,7 @@ function AppointmentForm() {
   
   const searchParams = useSearchParams();
   const prefilledService = searchParams.get('investigation') || searchParams.get('service') || '';
+  const { locale, dictionary } = useI18n();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,14 +23,14 @@ function AppointmentForm() {
     setError(null);
     
     const formData = new FormData(e.currentTarget);
-    const result = await submitAppointment(formData);
+    const result = await submitAppointment(formData, locale);
     
     setIsSubmitting(false);
     
     if (result.success) {
       setIsSuccess(true);
     } else {
-      setError(result.error || "An error occurred");
+      setError(result.error || dictionary.appointment.form.error);
     }
   };
 
@@ -38,13 +40,12 @@ function AppointmentForm() {
         <div className="container">
           <div className={styles.successMessage}>
             <div className={styles.successIcon}>✓</div>
-            <h1 className="h2-section" style={{ marginBottom: '1rem' }}>Request Received</h1>
+            <h1 className="h2-section" style={{ marginBottom: '1rem' }}>{dictionary.appointment.form.success.split('.')[0]}</h1>
             <p className="text-body-large" style={{ marginBottom: '2rem' }}>
-              Your appointment request has been received.<br />
-              Our team will contact you shortly for confirmation.
+              {dictionary.appointment.form.success.split('. ').slice(1).join('. ')}
             </p>
-            <Button href="/" variant="outline">
-              Return to Homepage &rarr;
+            <Button href={`/${locale}`} variant="outline">
+              &larr; {dictionary.nav.home}
             </Button>
           </div>
         </div>
@@ -56,28 +57,28 @@ function AppointmentForm() {
     <div className={`section-padding ${styles.appointmentPage}`}>
       <div className={`container ${styles.formContainer}`}>
         <div className={styles.formHeader}>
-          <span className="eyebrow">Book an Appointment</span>
-          <h1 className="h1-hero">Schedule your visit</h1>
+          <span className="eyebrow">{dictionary.nav.appointment.toUpperCase()}</span>
+          <h1 className="h1-hero">{dictionary.appointment.title}</h1>
           <p className="text-body" style={{ marginTop: '1rem' }}>
-            Please fill out the form below to request an appointment. Our team will call you to confirm the exact time and preparation details.
+            {dictionary.appointment.subtitle}
           </p>
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.formGrid}>
             <div className="form-group">
-              <label htmlFor="name" className="form-label">Patient Name *</label>
-              <input type="text" id="name" name="patientName" className="form-input" required placeholder="Enter full name" />
+              <label htmlFor="name" className="form-label">{dictionary.appointment.form.patientName} *</label>
+              <input type="text" id="name" name="patientName" className="form-input" required placeholder={dictionary.appointment.form.patientName} />
             </div>
             
             <div className="form-group">
-              <label htmlFor="phone" className="form-label">Phone Number *</label>
-              <input type="tel" id="phone" name="phoneNumber" className="form-input" required placeholder="10-digit mobile number" pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number" />
+              <label htmlFor="phone" className="form-label">{dictionary.appointment.form.phone} *</label>
+              <input type="tel" id="phone" name="phoneNumber" className="form-input" required placeholder="10-digit" pattern="[0-9]{10}" title={dictionary.appointment.validation.phoneExact} />
             </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="investigation" className="form-label">Investigation Required *</label>
+            <label htmlFor="investigation" className="form-label">{dictionary.appointment.form.investigation} *</label>
             <input 
               type="text" 
               id="investigation" 
@@ -85,45 +86,45 @@ function AppointmentForm() {
               className="form-input" 
               required 
               defaultValue={prefilledService}
-              placeholder="E.g., Ultrasound Abdomen & Pelvis"
+              placeholder="Ultrasound, X-Ray, etc."
             />
           </div>
 
           <div className={styles.formGrid}>
             <div className="form-group">
-              <label htmlFor="centre" className="form-label">Preferred Centre</label>
+              <label htmlFor="centre" className="form-label">{dictionary.appointment.form.centre}</label>
               <select id="centre" name="preferredCentre" className="form-input" defaultValue="Maqsudan">
-                <option value="Maqsudan">Maqsudan Centre</option>
-                <option value="Rama Mandi">Rama Mandi Centre</option>
-                <option value="Any">No Preference / Any</option>
+                <option value="Maqsudan">{dictionary.centres.locations.maqsudan.name}</option>
+                <option value="Rama Mandi">{dictionary.centres.locations.ramaMandi.name}</option>
+                <option value="Any">Any / ਕੋਈ ਵੀ</option>
               </select>
             </div>
             
             <div className="form-group">
-              <label htmlFor="date" className="form-label">Preferred Date *</label>
+              <label htmlFor="date" className="form-label">{dictionary.appointment.form.date} *</label>
               <input type="date" id="date" name="preferredDate" className="form-input" required />
             </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="time" className="form-label">Preferred Time (Morning/Evening)</label>
+            <label htmlFor="time" className="form-label">{dictionary.appointment.form.time}</label>
             <select id="time" name="preferredTime" className="form-input" defaultValue="Any">
-              <option value="Morning">Morning (9:00 AM - 1:00 PM)</option>
-              <option value="Evening">Evening (4:00 PM - 8:00 PM)</option>
-              <option value="Any">Any Available Time</option>
+              <option value="Morning">Morning / ਸਵੇਰ (9:00 AM - 1:00 PM)</option>
+              <option value="Evening">Evening / ਸ਼ਾਮ (4:00 PM - 8:00 PM)</option>
+              <option value="Any">Any Available Time / ਕੋਈ ਵੀ ਸਮਾਂ</option>
             </select>
           </div>
 
           <div className="form-group">
-            <label htmlFor="message" className="form-label">Additional Message or Symptoms</label>
-            <textarea id="message" name="message" className="form-input" rows={4} placeholder="Briefly describe your symptoms or doctor's advice"></textarea>
+            <label htmlFor="message" className="form-label">{dictionary.appointment.form.message}</label>
+            <textarea id="message" name="message" className="form-input" rows={4} placeholder="..."></textarea>
           </div>
 
           {error && <div className={styles.errorMessage}>{error}</div>}
 
           <div className={styles.formActions}>
             <Button type="submit" variant="primary" size="lg" fullWidth disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Request Appointment →'}
+              {isSubmitting ? dictionary.appointment.form.submitting : dictionary.appointment.form.submit} &rarr;
             </Button>
             <p className={styles.disclaimer}>
               This is an appointment request. Your booking is only confirmed after our staff contacts you.
@@ -136,8 +137,9 @@ function AppointmentForm() {
 }
 
 export default function AppointmentPage() {
+  const { dictionary } = useI18n();
   return (
-    <Suspense fallback={<div className="section-padding text-center">Loading booking form...</div>}>
+    <Suspense fallback={<div className="section-padding text-center">{dictionary?.common?.loading || 'Loading...'}</div>}>
       <AppointmentForm />
     </Suspense>
   );

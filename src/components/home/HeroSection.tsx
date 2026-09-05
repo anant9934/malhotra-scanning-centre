@@ -1,54 +1,59 @@
 import React from 'react';
 import Image from "next/image";
 import { ArrowRight, Phone, CheckCircle, Clock, Users } from "lucide-react";
-import styles from "@/app/page.module.css";
+import styles from "@/app/[locale]/(public)/page.module.css";
 import { Button } from "@/components/ui/Button";
+import { Locale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/dictionaries';
 
 interface HeroSectionProps {
+  locale: Locale;
   tagline: string;
   phoneVal: string;
   phoneClean: string;
 }
 
-export function HeroSection({ tagline, phoneVal, phoneClean }: HeroSectionProps) {
+export async function HeroSection({ locale, tagline, phoneVal, phoneClean }: HeroSectionProps) {
+  const dictionary = await getDictionary(locale);
+
   return (
     <section className={styles.hero}>
       <div className={`container ${styles.heroContainer}`}>
         <div className={styles.heroContent}>
           <span className="eyebrow fade-in-up" style={{ animationDelay: '0.1s' }}>
-            {tagline.toUpperCase()}
+            {dictionary.home.hero.eyebrow.toUpperCase()}
           </span>
-          <h1 className={`h1-hero fade-in-up ${styles.heroTitle}`} style={{ animationDelay: '0.2s' }}>
-            Precision<br/>
-            in diagnosis.<br />
-            <span className="text-italic-gold">For what<br/>matters most.</span>
+          <h1 className={`h1-hero fade-in-up ${styles.heroTitle}`} style={{ animationDelay: '0.2s', fontSize: locale === 'pa' ? '3rem' : undefined, lineHeight: locale === 'pa' ? '1.4' : undefined }}>
+            {dictionary.home.hero.heading.split(',')[0]}<br/>
+            {dictionary.home.hero.heading.split(',')[1] || ''}<br />
+            {locale === 'en' && <span className="text-italic-gold">For what<br/>matters most.</span>}
           </h1>
           <div className={`fade-in-up ${styles.heroSeparator}`} style={{ animationDelay: '0.25s' }}></div>
           <p className={`text-body-large fade-in-up ${styles.heroDescription}`} style={{ animationDelay: '0.3s' }}>
-            Ultrasound, Doppler, X-Ray, CT Scan and comprehensive diagnostic investigations under expert radiological care.
+            {dictionary.home.hero.description}
           </p>
           <div className={`fade-in-up ${styles.heroActions}`} style={{ animationDelay: '0.4s' }}>
-            <Button href="/appointment" variant="primary" size="lg">
-              Book an Appointment <ArrowRight size={16} style={{ marginLeft: '0.5rem' }} />
+            <Button href={`/${locale}/appointment`} variant="primary" size="lg">
+              {dictionary.home.hero.primaryCta} <ArrowRight size={16} style={{ marginLeft: '0.5rem' }} />
             </Button>
             <Button href={`tel:+91${phoneClean}`} variant="outline" size="lg">
               <Phone size={16} style={{ marginRight: '0.5rem', color: 'var(--color-gold-accent)' }} />
-              Call {phoneVal}
+              {dictionary.centres.labels.call} {phoneVal}
             </Button>
           </div>
           
           <div className={`fade-in-up ${styles.trustPoints}`} style={{ animationDelay: '0.6s' }}>
             <div className={styles.trustPoint}>
               <div className={styles.trustIcon}><CheckCircle size={16} /></div>
-              <span>Quick & Easy<br/>Appointments</span>
+              <span>{dictionary.home.trust.accuracy}<br/>{dictionary.home.trust.accuracyDesc}</span>
             </div>
             <div className={styles.trustPoint}>
               <div className={styles.trustIcon}><Clock size={16} /></div>
-              <span>Minimal Waiting<br/>Time</span>
+              <span>{dictionary.home.trust.timely}<br/>{dictionary.home.trust.timelyDesc}</span>
             </div>
             <div className={styles.trustPoint}>
               <div className={styles.trustIcon}><Users size={16} /></div>
-              <span>Trusted by Families<br/>Across Jalandhar</span>
+              <span>{dictionary.home.trust.experience}<br/>{dictionary.home.trust.experienceDesc}</span>
             </div>
           </div>
         </div>

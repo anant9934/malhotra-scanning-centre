@@ -1,14 +1,22 @@
 import React from 'react';
-import styles from "@/app/page.module.css";
+import styles from "@/app/[locale]/(public)/page.module.css";
 import { TestimonialCarousel } from "@/components/home/TestimonialCarousel";
+import { Locale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/dictionaries';
 
-export function PatientStoriesSection() {
+interface PatientStoriesSectionProps {
+  locale: Locale;
+}
+
+export async function PatientStoriesSection({ locale }: PatientStoriesSectionProps) {
+  const dictionary = await getDictionary(locale);
+
   return (
     <section className={`section-padding ${styles.testimonialsSection}`}>
       <div className="container">
         <div className={styles.servicesHeaderRow}>
           <div className={styles.servicesHeaderLeft} style={{ width: '100%' }}>
-            <span className="eyebrow">PATIENT STORIES</span>
+            <span className="eyebrow">{dictionary.nav.contact.toUpperCase()} - REVIEWS</span>
             <h2 className="h2-section">Trusted by the community.</h2>
             <p className="text-body-large" style={{ marginTop: '1rem', color: 'var(--color-text-secondary)', maxWidth: '600px' }}>
               Real experiences from people who have visited Malhotra Scanning Centre.

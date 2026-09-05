@@ -1,8 +1,16 @@
 import React from 'react';
 import { Activity, Users, CheckCircle, Heart } from "lucide-react";
-import styles from "@/app/page.module.css";
+import styles from "@/app/[locale]/(public)/page.module.css";
+import { Locale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/dictionaries';
 
-export function TrustBand() {
+interface TrustBandProps {
+  locale: Locale;
+}
+
+export async function TrustBand({ locale }: TrustBandProps) {
+  const dictionary = await getDictionary(locale);
+
   return (
     <section className={styles.trustBand}>
       <div className={`container ${styles.trustBandContainer}`}>
@@ -18,29 +26,29 @@ export function TrustBand() {
           <div className={styles.trustBandItem}>
             <div className={styles.trustBandIconCircle}><Activity size={20} /></div>
             <div>
-              <h3 className={styles.trustBandItemTitle}>Advanced Equipment</h3>
-              <p className={styles.trustBandItemDesc}>State-of-the-art machines for precise imaging.</p>
+              <h3 className={styles.trustBandItemTitle}>{dictionary.home.trust.accuracy}</h3>
+              <p className={styles.trustBandItemDesc}>{dictionary.home.trust.accuracyDesc}</p>
             </div>
           </div>
           <div className={styles.trustBandItem}>
             <div className={styles.trustBandIconCircle}><Users size={20} /></div>
             <div>
-              <h3 className={styles.trustBandItemTitle}>Expert Radiologist</h3>
-              <p className={styles.trustBandItemDesc}>Experienced & dedicated medical professional.</p>
+              <h3 className={styles.trustBandItemTitle}>{dictionary.home.trust.experience}</h3>
+              <p className={styles.trustBandItemDesc}>{dictionary.home.trust.experienceDesc}</p>
             </div>
           </div>
           <div className={styles.trustBandItem}>
             <div className={styles.trustBandIconCircle}><CheckCircle size={20} /></div>
             <div>
-              <h3 className={styles.trustBandItemTitle}>Accurate Reports</h3>
-              <p className={styles.trustBandItemDesc}>Fast, reliable and patient-friendly reporting.</p>
+              <h3 className={styles.trustBandItemTitle}>{dictionary.home.trust.timely}</h3>
+              <p className={styles.trustBandItemDesc}>{dictionary.home.trust.timelyDesc}</p>
             </div>
           </div>
           <div className={styles.trustBandItem}>
             <div className={styles.trustBandIconCircle}><Heart size={20} /></div>
             <div>
-              <h3 className={styles.trustBandItemTitle}>Patient-First Approach</h3>
-              <p className={styles.trustBandItemDesc}>Comfort, care and respect at every step.</p>
+              <h3 className={styles.trustBandItemTitle}>Patient First</h3>
+              <p className={styles.trustBandItemDesc}>Compassionate care at every step.</p>
             </div>
           </div>
         </div>

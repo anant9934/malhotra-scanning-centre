@@ -2,16 +2,19 @@
 
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
-import { AppointmentSchema } from '@/lib/schemas';
+import { getAppointmentSchema } from '@/lib/schemas';
 import { encrypt, decrypt } from '@/lib/encryption';
+import { getDictionary } from '@/i18n/dictionaries';
+import { Locale } from '@/i18n/config';
 
 /**
  * Submits a new appointment booking with validation and encryption.
  * 
  * @param formData - The form data containing patient details and preferences
+ * @param locale - Current locale for localized validation errors
  * @returns An object indicating success or failure
  */
-export async function submitAppointment(formData: FormData) {
+export async function submitAppointment(formData: FormData, locale: Locale = 'en') {
   try {
     const rawData = {
       patientName: formData.get('patientName'),
@@ -19,9 +22,13 @@ export async function submitAppointment(formData: FormData) {
       investigation: formData.get('investigation'),
       preferredCentre: formData.get('preferredCentre') || 'Maqsudan',
       preferredDate: formData.get('preferredDate'),
-      preferredTime: formData.get('preferredTime') || '09:00',
+      preferredTime: formData.get('preferredTime') || 'Any',
       message: formData.get('message') || '',
     };
+
+    // Fetch localized dictionary for validation messages
+    const dictionary = await getDictionary(locale);
+    const AppointmentSchema = getAppointmentSchema(dictionary);
 
     // 1. Zod Validation (Input Sanitization)
     const validatedData = AppointmentSchema.parse(rawData);
@@ -47,8 +54,11 @@ export async function submitAppointment(formData: FormData) {
     return { success: true };
   } catch (error: any) {
     console.error("Failed to submit appointment:", error);
-    // Do not leak database errors to the client
-    return { success: false, error: error.errors ? "Validation failed. Check your inputs." : "System error occurred." };
+    // Do not leak database errors to the client, but return Zod validation errors
+    if (error.errors && error.errors.length > 0) {
+      return { success: false, error: error.errors[0].message };
+    }
+    return { success: false, error: "System error occurred. Please try again." };
   }
 }
 

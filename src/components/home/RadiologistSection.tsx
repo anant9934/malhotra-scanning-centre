@@ -1,38 +1,46 @@
 import React from 'react';
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import styles from "@/app/page.module.css";
+import styles from "@/app/[locale]/(public)/page.module.css";
 import { Button } from "@/components/ui/Button";
+import { Locale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/dictionaries';
 
-export function RadiologistSection() {
+interface RadiologistSectionProps {
+  locale: Locale;
+}
+
+export async function RadiologistSection({ locale }: RadiologistSectionProps) {
+  const dictionary = await getDictionary(locale);
+
   return (
     <section className={`section-padding bg-secondary`}>
       <div className={`container ${styles.radiologistContainer}`}>
         <div className={styles.radiologistImageWrapper}>
           <Image 
             src="/images/dr-malhotra.png" 
-            alt="Dr. Rajat Malhotra" 
+            alt={dictionary.radiologist.title} 
             fill 
             className={styles.docImage}
           />
-          <div className={styles.signature}>Dr. Rajat Malhotra</div>
+          <div className={styles.signature}>{dictionary.radiologist.title}</div>
         </div>
         <div className={styles.radiologistContent}>
-          <span className="eyebrow">OUR RADIOLOGIST</span>
-          <h2 className="h2-section" style={{ marginBottom: '0.25rem' }}>Dr. Rajat Malhotra</h2>
-          <p className={styles.credentials}>MBBS, MD RADIODIAGNOSIS</p>
+          <span className="eyebrow">{dictionary.nav.radiologist.toUpperCase()}</span>
+          <h2 className="h2-section" style={{ marginBottom: '0.25rem' }}>{dictionary.radiologist.title}</h2>
+          <p className={styles.credentials}>{dictionary.radiologist.credentials}</p>
           <div className={styles.cardLine} style={{margin: '1.5rem 0'}}></div>
           <p className={`text-body ${styles.bio}`}>
-            Experienced consultant radiologist committed to providing precise diagnosis and compassionate care using the latest imaging technology.
+            {dictionary.radiologist.biography}
           </p>
-          <Button href="/radiologist" variant="outline" size="md" style={{marginTop: '2rem'}}>
-            Know More <ArrowRight size={14} style={{marginLeft: '0.25rem'}} />
+          <Button href={`/${locale}/radiologist`} variant="outline" size="md" style={{marginTop: '2rem'}}>
+            {dictionary.common.readMore} <ArrowRight size={14} style={{marginLeft: '0.25rem'}} />
           </Button>
         </div>
         <div className={styles.quoteBlock}>
-          <h3 className={styles.quoteText}>"Accurate imaging<br/>leads to better decisions<br/>and healthier lives."</h3>
+          <h3 className={styles.quoteText}>"Where Perfection Is The Definition."</h3>
           <div className={styles.cardLine} style={{margin: '1.5rem 0', borderColor: 'var(--color-gold-accent)'}}></div>
-          <span className={styles.quoteAuthor}>DR. RAJAT MALHOTRA</span>
+          <span className={styles.quoteAuthor}>{dictionary.radiologist.title.toUpperCase()}</span>
         </div>
       </div>
     </section>

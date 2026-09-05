@@ -4,12 +4,22 @@ import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import styles from './centres.module.css';
 import { Button } from '@/components/ui/Button';
+import { useI18n } from '@/components/providers/I18nProvider';
 
 export default function CentresContent({ settings }: { settings?: any }) {
   const [activeCentre, setActiveCentre] = useState<'maqsudan' | 'ramamandi'>('maqsudan');
+  const { locale, dictionary } = useI18n();
 
   const servicesList = [
-    'Ultrasound', 'Colour Doppler', 'Digital X-Ray', 'CT Scan', 'Fetal Imaging', 'ECHO', 'ECG / EEG', 'FibroScan', 'Laboratory'
+    dictionary.services.categories.ultrasound.split('(')[0].trim(),
+    dictionary.services.categories.doppler.split('(')[0].trim(),
+    dictionary.services.categories.xray.split('(')[0].trim(),
+    dictionary.services.categories.ctscan.split('(')[0].trim(),
+    dictionary.services.categories.fetal.split('(')[0].trim(),
+    dictionary.services.categories.cardiac.split('(')[0].trim(),
+    dictionary.services.categories.ecg.split('(')[0].trim(),
+    dictionary.services.categories.fibroscan.split('(')[0].trim(),
+    dictionary.services.categories.lab.split('(')[0].trim()
   ];
   
   const maq = settings?.centres?.maqsudan || {};
@@ -17,12 +27,12 @@ export default function CentresContent({ settings }: { settings?: any }) {
   
   const maqPhone = maq.phone || '+91 6283930230';
   const maqPhoneClean = maqPhone.replace(/[^+0-9]/g, '');
-  const maqAddress = maq.address || 'Plot No. 2, Maqsudan Chowk, HDFC Bank Basement, Near Police Station, Jalandhar, Punjab 144008';
+  const maqAddress = maq.address || dictionary.centres.locations.maqsudan.address;
   const maqHours = maq.hours || 'Monday – Saturday, 9:00 AM – 7:30 PM';
   
   const ramaPhone = rama.phone || '+91 6283930231';
   const ramaPhoneClean = ramaPhone.replace(/[^+0-9]/g, '');
-  const ramaAddress = rama.address || 'Main Market, Opposite Dashmesh Vaishno Dhaba, Rama Mandi, Jalandhar, Punjab 144005';
+  const ramaAddress = rama.address || dictionary.centres.locations.ramaMandi.address;
   const ramaHours = rama.hours || 'Monday – Saturday, 9:00 AM – 7:30 PM';
 
   return (
@@ -32,18 +42,18 @@ export default function CentresContent({ settings }: { settings?: any }) {
           {/* Header Section */}
           <div className={styles.header}>
             <span className="eyebrow" style={{ textAlign: 'center', display: 'block', marginBottom: '1rem' }}>
-              OUR LOCATIONS
+              {dictionary.nav.centres.toUpperCase()}
             </span>
             <h1 className="h1-hero" style={{ textAlign: 'center', fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', marginBottom: '1rem' }}>
-              Two locations.<br />
-              <span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400, color: 'var(--color-gold-accent)' }}>One standard of care.</span>
+              {dictionary.centres.title.split(',')[0]}<br />
+              <span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400, color: 'var(--color-gold-accent)' }}>{dictionary.centres.title.split(',')[1]}</span>
             </h1>
             <p className="text-body-large" style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto', marginBottom: '2rem' }}>
-              Visit Malhotra Scanning Centre at our two convenient locations in Jalandhar, Punjab.
+              {dictionary.centres.subtitle}
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button href="/appointment" variant="primary">
-                Book an Appointment &rarr;
+              <Button href={`/${locale}/appointment`} variant="primary">
+                {dictionary.nav.appointment} &rarr;
               </Button>
             </div>
           </div>
@@ -76,26 +86,26 @@ export default function CentresContent({ settings }: { settings?: any }) {
               
               <div className={styles.cardBody}>
                 <h2 className="h2-section" style={{ fontSize: '2.5rem', marginBottom: '2.5rem' }}>
-                  Maqsudan Centre
+                  {dictionary.centres.locations.maqsudan.name}
                 </h2>
                 
                 <div className={styles.infoList}>
                   <div className={styles.infoGroup}>
-                    <span className={styles.infoLabel}>LOCATION</span>
+                    <span className={styles.infoLabel}>{dictionary.centres.labels.address.toUpperCase()}</span>
                     <p className={styles.infoText}>
                       {maqAddress.split(', ').map((line: string, i: number) => <React.Fragment key={i}>{line}<br/></React.Fragment>)}
                     </p>
                   </div>
                   
                   <div className={styles.infoGroup}>
-                    <span className={styles.infoLabel}>CONTACT</span>
+                    <span className={styles.infoLabel}>{dictionary.centres.labels.phone.toUpperCase()}</span>
                     <p className={styles.infoText}>
                       {maqPhone}
                     </p>
                   </div>
 
                   <div className={styles.infoGroup}>
-                    <span className={styles.infoLabel}>HOURS</span>
+                    <span className={styles.infoLabel}>{dictionary.centres.labels.hours.toUpperCase()}</span>
                     <p className={styles.infoText}>
                       {maqHours.split(', ').map((line: string, i: number) => <React.Fragment key={i}>{line}<br/></React.Fragment>)}
                     </p>
@@ -104,10 +114,10 @@ export default function CentresContent({ settings }: { settings?: any }) {
 
                 <div className={styles.cardActions}>
                   <a href={`tel:${maqPhoneClean}`} className={styles.actionBtn}>
-                    Call
+                    {dictionary.centres.labels.call.split(' ')[0]}
                   </a>
                   <a href={`https://wa.me/91${maqPhoneClean.replace('+', '')}`} target="_blank" rel="noopener noreferrer" className={styles.actionBtn}>
-                    WhatsApp
+                    {dictionary.centres.labels.whatsapp}
                   </a>
                   <a 
                     href="https://maps.google.com/?q=Malhotra+Scanning+Centre+Maqsudan+Jalandhar" 
@@ -115,21 +125,18 @@ export default function CentresContent({ settings }: { settings?: any }) {
                     rel="noopener noreferrer" 
                     className={`${styles.actionBtn} ${styles.primaryAction}`}
                   >
-                    Get Directions <ArrowRight size={14} className={styles.arrow} />
+                    {dictionary.centres.labels.directions} <ArrowRight size={14} className={styles.arrow} />
                   </a>
                 </div>
               </div>
 
               <div className={styles.servicesSection}>
-                <span className={styles.infoLabel} style={{ marginBottom: '1rem', display: 'block' }}>SERVICES AT THIS CENTRE</span>
+                <span className={styles.infoLabel} style={{ marginBottom: '1rem', display: 'block' }}>{dictionary.centres.labels.servicesAvailable.toUpperCase()}</span>
                 <div className={styles.serviceChips}>
                   {servicesList.map(service => (
                     <span key={service} className={styles.serviceChip}>{service}</span>
                   ))}
                 </div>
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', fontStyle: 'italic', marginTop: '1rem' }}>
-                  Services may vary by location. Please contact the centre to confirm availability.
-                </p>
               </div>
             </div>
 
@@ -142,26 +149,26 @@ export default function CentresContent({ settings }: { settings?: any }) {
               
               <div className={styles.cardBody}>
                 <h2 className="h2-section" style={{ fontSize: '2.5rem', marginBottom: '2.5rem' }}>
-                  Rama Mandi Centre
+                  {dictionary.centres.locations.ramaMandi.name}
                 </h2>
                 
                 <div className={styles.infoList}>
                   <div className={styles.infoGroup}>
-                    <span className={styles.infoLabel}>LOCATION</span>
+                    <span className={styles.infoLabel}>{dictionary.centres.labels.address.toUpperCase()}</span>
                     <p className={styles.infoText}>
                       {ramaAddress.split(', ').map((line: string, i: number) => <React.Fragment key={i}>{line}<br/></React.Fragment>)}
                     </p>
                   </div>
                   
                   <div className={styles.infoGroup}>
-                    <span className={styles.infoLabel}>CONTACT</span>
+                    <span className={styles.infoLabel}>{dictionary.centres.labels.phone.toUpperCase()}</span>
                     <p className={styles.infoText}>
                       {ramaPhone}
                     </p>
                   </div>
 
                   <div className={styles.infoGroup}>
-                    <span className={styles.infoLabel}>HOURS</span>
+                    <span className={styles.infoLabel}>{dictionary.centres.labels.hours.toUpperCase()}</span>
                     <p className={styles.infoText}>
                       {ramaHours.split(', ').map((line: string, i: number) => <React.Fragment key={i}>{line}<br/></React.Fragment>)}
                     </p>
@@ -170,10 +177,10 @@ export default function CentresContent({ settings }: { settings?: any }) {
 
                 <div className={styles.cardActions}>
                   <a href={`tel:${ramaPhoneClean}`} className={styles.actionBtn}>
-                    Call
+                    {dictionary.centres.labels.call.split(' ')[0]}
                   </a>
                   <a href={`https://wa.me/91${ramaPhoneClean.replace('+', '')}`} target="_blank" rel="noopener noreferrer" className={styles.actionBtn}>
-                    WhatsApp
+                    {dictionary.centres.labels.whatsapp}
                   </a>
                   <a 
                     href="https://maps.google.com/?q=Malhotra+Scanning+Centre+Rama+Mandi+Jalandhar" 
@@ -181,21 +188,18 @@ export default function CentresContent({ settings }: { settings?: any }) {
                     rel="noopener noreferrer" 
                     className={`${styles.actionBtn} ${styles.primaryAction}`}
                   >
-                    Get Directions <ArrowRight size={14} className={styles.arrow} />
+                    {dictionary.centres.labels.directions} <ArrowRight size={14} className={styles.arrow} />
                   </a>
                 </div>
               </div>
 
               <div className={styles.servicesSection}>
-                <span className={styles.infoLabel} style={{ marginBottom: '1rem', display: 'block' }}>SERVICES AT THIS CENTRE</span>
+                <span className={styles.infoLabel} style={{ marginBottom: '1rem', display: 'block' }}>{dictionary.centres.labels.servicesAvailable.toUpperCase()}</span>
                 <div className={styles.serviceChips}>
                   {servicesList.map(service => (
                     <span key={service} className={styles.serviceChip}>{service}</span>
                   ))}
                 </div>
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', fontStyle: 'italic', marginTop: '1rem' }}>
-                  Services may vary by location. Please contact the centre to confirm availability.
-                </p>
               </div>
             </div>
 
@@ -206,13 +210,6 @@ export default function CentresContent({ settings }: { settings?: any }) {
       {/* MAP SECTION */}
       <section className="section-padding bg-secondary">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <span className="eyebrow" style={{ display: 'block', marginBottom: '1rem' }}>LOCATE US</span>
-            <h2 className="h2-section" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-              Easy to find.<br />
-              <span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400, color: 'var(--color-gold-accent)' }}>Easy to reach.</span>
-            </h2>
-          </div>
           
           <div className={styles.mapGrid}>
             <div className={styles.mapWrapper}>
@@ -227,7 +224,7 @@ export default function CentresContent({ settings }: { settings?: any }) {
                 title="Maqsudan Map"
               ></iframe>
               <a href="https://maps.google.com/?q=Malhotra+Scanning+Centre+Maqsudan+Jalandhar" target="_blank" rel="noopener noreferrer" className={styles.mapLink}>
-                Directions to Maqsudan <ArrowRight size={16} className={styles.arrow} />
+                {dictionary.centres.labels.directions} <ArrowRight size={16} className={styles.arrow} />
               </a>
             </div>
             <div className={styles.mapWrapper}>
@@ -242,62 +239,8 @@ export default function CentresContent({ settings }: { settings?: any }) {
                 title="Rama Mandi Map"
               ></iframe>
               <a href="https://maps.google.com/?q=Malhotra+Scanning+Centre+Rama+Mandi+Jalandhar" target="_blank" rel="noopener noreferrer" className={styles.mapLink}>
-                Directions to Rama Mandi <ArrowRight size={16} className={styles.arrow} />
+                {dictionary.centres.labels.directions} <ArrowRight size={16} className={styles.arrow} />
               </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* VISITING INFORMATION */}
-      <section className="section-padding" style={{ borderBottom: '1px solid var(--color-border)' }}>
-        <div className="container">
-          <div className={styles.visitingInfoGrid}>
-            <div className={styles.infoColumn}>
-              <span className={styles.cardNumber}>01</span>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem' }}>BEFORE YOUR VISIT</h3>
-              <p className="text-body">Carry your prescription or referral where applicable. Please bring past medical records or previous scan reports if available.</p>
-            </div>
-            <div className={styles.infoColumn}>
-              <span className={styles.cardNumber}>02</span>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem' }}>PREPARATION</h3>
-              <p className="text-body">Investigation-specific preparation may be required (such as fasting or a full bladder). Confirm instructions while booking.</p>
-            </div>
-            <div className={styles.infoColumn}>
-              <span className={styles.cardNumber}>03</span>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem' }}>NEED HELP?</h3>
-              <p className="text-body">Contact the centre before visiting if you are unsure about preparation, availability or exact location details.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* BRANCH COMPARISON */}
-      <section className="section-padding">
-        <div className="container">
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <h2 className="h2-section" style={{ textAlign: 'center', marginBottom: '3rem' }}>Branch Comparison</h2>
-            
-            <div className={styles.comparisonTable}>
-              <div className={styles.comparisonHeader}>
-                <div className={styles.colLabel}></div>
-                <div className={styles.colHeader}>MAQSUDAN</div>
-                <div className={styles.colHeader}>RAMA MANDI</div>
-              </div>
-              
-              <div className={styles.comparisonRow}>
-                <div className={styles.rowLabel}>Location</div>
-                <div className={styles.rowCheck}>✓</div>
-                <div className={styles.rowCheck}>✓</div>
-              </div>
-              
-              {servicesList.map((service, index) => (
-                <div key={index} className={styles.comparisonRow}>
-                  <div className={styles.rowLabel}>{service}</div>
-                  <div className={styles.rowConfirm}>Confirm</div>
-                  <div className={styles.rowConfirm}>Confirm</div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -307,19 +250,15 @@ export default function CentresContent({ settings }: { settings?: any }) {
       <section className="section-padding" style={{ backgroundColor: 'var(--color-green-primary)', color: 'var(--color-white)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}>
-            <span className="eyebrow" style={{ color: 'var(--color-white)', opacity: 0.8, marginBottom: '1rem', display: 'block' }}>READY FOR YOUR VISIT?</span>
-            <h2 className="h1-hero" style={{ color: 'var(--color-white)', marginBottom: '2.5rem' }}>Choose your centre and book your visit.</h2>
+            <h2 className="h1-hero" style={{ color: 'var(--color-white)', marginBottom: '2.5rem' }}>{dictionary.appointment.subtitle}</h2>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
-              <Button href="/appointment" variant="primary" style={{ backgroundColor: 'var(--color-white)', color: 'var(--color-green-primary)' }}>
-                Book Appointment &rarr;
+              <Button href={`/${locale}/appointment`} variant="primary" style={{ backgroundColor: 'var(--color-white)', color: 'var(--color-green-primary)' }}>
+                {dictionary.nav.appointment} &rarr;
               </Button>
-              <Button href="/contact" variant="outline" style={{ borderColor: 'rgba(255,255,255,0.3)', color: 'var(--color-white)' }}>
-                Contact Us
+              <Button href={`/${locale}/contact`} variant="outline" style={{ borderColor: 'rgba(255,255,255,0.3)', color: 'var(--color-white)' }}>
+                {dictionary.nav.contact}
               </Button>
             </div>
-            <p style={{ fontSize: '0.875rem', opacity: 0.8 }}>
-              Our team can help you select the appropriate centre and provide investigation-specific guidance.
-            </p>
           </div>
         </div>
       </section>
