@@ -25,7 +25,7 @@ function getLocale(request: NextRequest): string {
   return defaultLocale;
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // 1. Supabase Session Refresh (for any Supabase queries)
   const supabaseResponse = await updateSession(request)
 
