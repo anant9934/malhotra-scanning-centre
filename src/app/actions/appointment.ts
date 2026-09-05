@@ -2,50 +2,58 @@
 
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
+import { AppointmentSchema } from '@/lib/schemas';
+import { encrypt, decrypt } from '@/lib/encryption';
 
 /**
- * Submits a new appointment booking.
+ * Submits a new appointment booking with validation and encryption.
  * 
  * @param formData - The form data containing patient details and preferences
  * @returns An object indicating success or failure
  */
 export async function submitAppointment(formData: FormData) {
   try {
-    const patientName = formData.get('patientName') as string;
-    const phoneNumber = formData.get('phoneNumber') as string;
-    const investigation = formData.get('investigation') as string;
-    const preferredCentre = formData.get('preferredCentre') as string;
-    const preferredDate = formData.get('preferredDate') as string;
-    const preferredTime = formData.get('preferredTime') as string;
-    const message = formData.get('message') as string | null;
+    const rawData = {
+      patientName: formData.get('patientName'),
+      phoneNumber: formData.get('phoneNumber'),
+      investigation: formData.get('investigation'),
+      preferredCentre: formData.get('preferredCentre') || 'Maqsudan',
+      preferredDate: formData.get('preferredDate'),
+      preferredTime: formData.get('preferredTime') || '09:00',
+      message: formData.get('message') || '',
+    };
 
-    if (!patientName || !phoneNumber || !investigation || !preferredDate) {
-      return { success: false, error: "Missing required fields" };
-    }
+    // 1. Zod Validation (Input Sanitization)
+    const validatedData = AppointmentSchema.parse(rawData);
+
+    // 2. Encryption (Data Protection at Rest)
+    const encryptedName = encrypt(validatedData.patientName);
+    const encryptedPhone = encrypt(validatedData.phoneNumber);
 
     await prisma.appointment.create({
       data: {
-        patientName,
-        phoneNumber,
-        investigation,
-        preferredCentre: preferredCentre || 'Maqsudan',
-        preferredDate,
-        preferredTime: preferredTime || 'Morning',
-        message: message || '',
+        patientName: encryptedName,
+        phoneNumber: encryptedPhone,
+        investigation: validatedData.investigation,
+        preferredCentre: validatedData.preferredCentre,
+        preferredDate: validatedData.preferredDate,
+        preferredTime: validatedData.preferredTime,
+        message: validatedData.message,
         status: 'Pending'
       }
     });
 
     revalidatePath('/admin');
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Failed to submit appointment:", error);
-    return { success: false, error: "Database error" };
+    // Do not leak database errors to the client
+    return { success: false, error: error.errors ? "Validation failed. Check your inputs." : "System error occurred." };
   }
 }
 
 /**
- * Retrieves all appointments from the database, ordered by creation date (descending).
+ * Retrieves all appointments, decrypting sensitive fields.
  * 
  * @returns An object containing the list of appointments or an error message
  */
@@ -54,7 +62,15 @@ export async function getAppointments() {
     const appointments = await prisma.appointment.findMany({
       orderBy: { createdAt: 'desc' }
     });
-    return { success: true, data: appointments };
+
+    // Decrypt data before returning to Admin UI
+    const decryptedAppointments = appointments.map(app => ({
+      ...app,
+      patientName: decrypt(app.patientName),
+      phoneNumber: decrypt(app.phoneNumber),
+    }));
+
+    return { success: true, data: decryptedAppointments };
   } catch (error) {
     console.error("Failed to fetch appointments:", error);
     return { success: false, error: "Database error" };
@@ -70,6 +86,11 @@ export async function getAppointments() {
  */
 export async function updateAppointmentStatus(id: string, status: string) {
   try {
+    // Basic validation
+    if (!['Pending', 'Confirmed', 'Completed', 'Cancelled'].includes(status)) {
+      return { success: false, error: "Invalid status" };
+    }
+
     await prisma.appointment.update({
       where: { id },
       data: { status }

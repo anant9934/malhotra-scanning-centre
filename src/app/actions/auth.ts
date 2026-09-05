@@ -1,50 +1,58 @@
 "use server";
 
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { createSession, deleteSession, verifySession } from '@/lib/session';
+import { LoginSchema } from '@/lib/schemas';
+import bcrypt from 'bcryptjs';
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+// In production, the admin password MUST be securely hashed and stored in the database.
+// Since we don't have an Admin table yet, we are comparing against a hashed ENV variable.
+// E.g. $2a$12$R9h/cIPz0gi.URNNX3cam2OsX...
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || bcrypt.hashSync('admin123', 12);
 
 /**
  * Authenticates an admin user using the provided password.
- * Sets a secure cookie if successful and redirects to the admin dashboard.
+ * Sets a secure JWT session if successful and redirects to the admin dashboard.
  * 
  * @param formData - The form data containing the password
  * @returns An object with an error message if authentication fails
  */
 export async function login(formData: FormData) {
-  const password = formData.get('password') as string;
-  
-  if (password === ADMIN_PASSWORD) {
-    const cookieStore = await cookies();
-    cookieStore.set('admin_auth', 'true', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24, // 1 day
-      path: '/',
+  try {
+    const parsedData = LoginSchema.parse({
+      password: formData.get('password'),
     });
-    redirect('/admin');
+    
+    // Secure constant-time hash comparison
+    const isMatch = await bcrypt.compare(parsedData.password, ADMIN_PASSWORD_HASH);
+    
+    if (isMatch) {
+      await createSession('SUPER_ADMIN');
+      // Redirect must happen outside try/catch if it's Next.js redirect
+    } else {
+      return { error: 'Invalid password' };
+    }
+  } catch (error) {
+    return { error: 'Validation failed' };
   }
   
-  return { error: 'Invalid password' };
+  redirect('/admin');
 }
 
 /**
- * Logs out the admin user by deleting the authentication cookie
- * and redirecting to the login page.
+ * Logs out the admin user by deleting the secure JWT session.
  */
 export async function logout() {
-  const cookieStore = await cookies();
-  cookieStore.delete('admin_auth');
+  await deleteSession();
   redirect('/admin/login');
 }
 
 /**
  * Checks if the current request is authenticated as an admin.
  * 
- * @returns A boolean indicating whether the admin authentication cookie is present
+ * @returns A boolean indicating whether the admin session is valid
  */
 export async function checkAuth() {
-  const cookieStore = await cookies();
-  return cookieStore.has('admin_auth');
+  const session = await verifySession();
+  return !!session;
 }
