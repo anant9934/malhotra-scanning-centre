@@ -22,9 +22,11 @@ export async function RadiologistSection({ locale }: RadiologistSectionProps) {
             alt={dictionary.radiologist.title} 
             fill 
             className={styles.docImage}
+            sizes="(max-width: 768px) 100vw, 400px"
+            unoptimized={true}
           />
-          <div className={styles.signature}>{dictionary.radiologist.title}</div>
         </div>
+        <div className={styles.signature}>{dictionary.radiologist.title}</div>
         <div className={styles.radiologistContent}>
           <span className="eyebrow">{dictionary.nav.radiologist.toUpperCase()}</span>
           <h2 className="h2-section" style={{ marginBottom: '0.25rem' }}>{dictionary.radiologist.title}</h2>

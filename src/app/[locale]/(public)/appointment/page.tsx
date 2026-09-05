@@ -94,8 +94,8 @@ function AppointmentForm() {
             <div className="form-group">
               <label htmlFor="centre" className="form-label">{dictionary.appointment.form.centre}</label>
               <select id="centre" name="preferredCentre" className="form-input" defaultValue="Maqsudan">
-                <option value="Maqsudan">{dictionary.centres.locations.maqsudan.name}</option>
-                <option value="Rama Mandi">{dictionary.centres.locations.ramaMandi.name}</option>
+                <option value="Maqsudan">{dictionary.centres.maqsudan.name}</option>
+                <option value="Rama Mandi">{dictionary.centres.ramamandi.name}</option>
                 <option value="Any">Any / ਕੋਈ ਵੀ</option>
               </select>
             </div>
@@ -127,7 +127,7 @@ function AppointmentForm() {
               {isSubmitting ? dictionary.appointment.form.submitting : dictionary.appointment.form.submit} &rarr;
             </Button>
             <p className={styles.disclaimer}>
-              This is an appointment request. Your booking is only confirmed after our staff contacts you.
+              {dictionary.appointment.form.disclaimer}
             </p>
           </div>
         </form>

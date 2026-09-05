@@ -6,6 +6,7 @@ import { getAppointmentSchema } from '@/lib/schemas';
 import { encrypt, decrypt } from '@/lib/encryption';
 import { getDictionary } from '@/i18n/dictionaries';
 import { Locale } from '@/i18n/config';
+import { checkAuth } from '@/app/actions/auth';
 
 /**
  * Submits a new appointment booking with validation and encryption.
@@ -69,6 +70,11 @@ export async function submitAppointment(formData: FormData, locale: Locale = 'en
  */
 export async function getAppointments() {
   try {
+    const isAuth = await checkAuth();
+    if (!isAuth) {
+      return { success: false, error: "Unauthorized access" };
+    }
+
     const appointments = await prisma.appointment.findMany({
       orderBy: { createdAt: 'desc' }
     });
@@ -96,6 +102,11 @@ export async function getAppointments() {
  */
 export async function updateAppointmentStatus(id: string, status: string) {
   try {
+    const isAuth = await checkAuth();
+    if (!isAuth) {
+      return { success: false, error: "Unauthorized access" };
+    }
+
     // Basic validation
     if (!['Pending', 'Confirmed', 'Completed', 'Cancelled'].includes(status)) {
       return { success: false, error: "Invalid status" };

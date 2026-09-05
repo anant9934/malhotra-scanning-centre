@@ -27,12 +27,12 @@ export default function CentresContent({ settings }: { settings?: any }) {
   
   const maqPhone = maq.phone || '+91 6283930230';
   const maqPhoneClean = maqPhone.replace(/[^+0-9]/g, '');
-  const maqAddress = maq.address || dictionary.centres.locations.maqsudan.address;
+  const maqAddress = maq.address || dictionary.centres.maqsudan.address;
   const maqHours = maq.hours || 'Monday – Saturday, 9:00 AM – 7:30 PM';
   
   const ramaPhone = rama.phone || '+91 6283930231';
   const ramaPhoneClean = ramaPhone.replace(/[^+0-9]/g, '');
-  const ramaAddress = rama.address || dictionary.centres.locations.ramaMandi.address;
+  const ramaAddress = rama.address || dictionary.centres.ramamandi.address;
   const ramaHours = rama.hours || 'Monday – Saturday, 9:00 AM – 7:30 PM';
 
   return (
@@ -86,7 +86,7 @@ export default function CentresContent({ settings }: { settings?: any }) {
               
               <div className={styles.cardBody}>
                 <h2 className="h2-section" style={{ fontSize: '2.5rem', marginBottom: '2.5rem' }}>
-                  {dictionary.centres.locations.maqsudan.name}
+                  {dictionary.centres.maqsudan.name}
                 </h2>
                 
                 <div className={styles.infoList}>
@@ -149,7 +149,7 @@ export default function CentresContent({ settings }: { settings?: any }) {
               
               <div className={styles.cardBody}>
                 <h2 className="h2-section" style={{ fontSize: '2.5rem', marginBottom: '2.5rem' }}>
-                  {dictionary.centres.locations.ramaMandi.name}
+                  {dictionary.centres.ramamandi.name}
                 </h2>
                 
                 <div className={styles.infoList}>

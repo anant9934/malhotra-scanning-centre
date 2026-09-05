@@ -116,6 +116,7 @@ export const en = {
       submitting: "Submitting...",
       success: "Appointment request submitted successfully. We will call you to confirm the time.",
       error: "Failed to submit appointment. Please try again or call us.",
+      disclaimer: "This is an appointment request. Your booking is only confirmed after our staff contacts you.",
     },
     validation: {
       nameMin: "Name must be at least 2 characters",

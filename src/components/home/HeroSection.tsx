@@ -66,14 +66,16 @@ export async function HeroSection({ locale, tagline, phoneVal, phoneClean }: Her
               fill
               className={styles.heroImage}
               priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+              unoptimized={true}
             />
-            <div className={styles.heroImageOverlay}>
-              <div className={styles.heroOverlayText}>
-                Better<br/>
-                Imaging<br/>
-                Brighter<br/>
-                Lives
-              </div>
+          </div>
+          <div className={styles.heroImageOverlay}>
+            <div className={styles.heroOverlayText}>
+              Better<br/>
+              Imaging<br/>
+              Brighter<br/>
+              Lives
             </div>
           </div>
           

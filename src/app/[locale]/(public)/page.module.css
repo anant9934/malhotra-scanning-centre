@@ -450,6 +450,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
+  position: relative;
 }
 
 .radiologistImageWrapper {
