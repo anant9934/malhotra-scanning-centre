@@ -28,7 +28,7 @@ export async function login(formData: FormData) {
     const cleanEnvHash = rawEnvHash.replace(/^['"]|['"]$/g, '');
     
     // Use the clean hash, or fallback to the exact hash for 'admin123'
-    const ADMIN_PASSWORD_HASH = cleanEnvHash || '$2a$12$R.vLqGg3sB7F83O4aL9Gvu/d5x25oKxM9x5H7sB8/Z8x4rK/M7uC6';
+    const ADMIN_PASSWORD_HASH = cleanEnvHash || '$2b$12$zdkArMuKx7rNEh919yBF7e3a8M6KWlmdEPBxSO9R0XRyKEGt9zdBK';
     
     // Secure constant-time hash comparison
     const isMatch = await bcrypt.compare(parsedData.password, ADMIN_PASSWORD_HASH);
