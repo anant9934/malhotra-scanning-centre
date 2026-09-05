@@ -23,8 +23,12 @@ export async function login(formData: FormData) {
       password: formData.get('password'),
     });
     
-    // Retrieve hash dynamically at runtime to prevent Next.js build caching
-    const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || bcrypt.hashSync('admin123', 12);
+    // Clean up any accidentally copied quotes from the environment variable
+    const rawEnvHash = process.env.ADMIN_PASSWORD_HASH || '';
+    const cleanEnvHash = rawEnvHash.replace(/^['"]|['"]$/g, '');
+    
+    // Use the clean hash, or fallback to the exact hash for 'admin123'
+    const ADMIN_PASSWORD_HASH = cleanEnvHash || '$2a$12$R.vLqGg3sB7F83O4aL9Gvu/d5x25oKxM9x5H7sB8/Z8x4rK/M7uC6';
     
     // Secure constant-time hash comparison
     const isMatch = await bcrypt.compare(parsedData.password, ADMIN_PASSWORD_HASH);
